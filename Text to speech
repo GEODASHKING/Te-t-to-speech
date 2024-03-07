@@ -1,0 +1,48 @@
+/**
+ const rt = client.realtime.createService();
+
+rt.on("transcript", (transcript: TranscriptMessage) => console.log('Transcript:', transcript));
+rt.on("error", (error: Error) => console.error('Error', error));
+rt.on("close", (code: number, reason: string) => console.log('Closed', code, reason));
+
+await rt.connect();
+
+from openai import OpenAI
+
+client = OpenAI()
+
+response = client.audio.speech.create(
+    model="tts-1",
+    voice="alloy",
+    input="Hello world! This is a streaming test.",
+)
+
+response.stream_to_file("output.mp3")
+getAudio((chunk) => {
+  rt.sendAudio(chunk);
+});
+
+await rt.close();
+
+ *
+ * @param {string} text - The text to be read out loud.
+ */
+function readTextOutLoud(text) {
+    // Create a new SpeechSynthesisUtterance instance
+    const message = new SpeechSynthesisUtterance();
+
+    // Set the text that will be read out loud
+    message.text = text;
+
+    // Using the default voice for speech synthesis
+    message.voice = speechSynthesis.getVoices()[0];
+
+    // Speak the text out loud
+    speechSynthesis.speak(message);
+}
+
+// HTML Setup
+document.body.innerHTML = `
+    <h1>Text-to-Speech</h1>
+    <textarea id="inputText" rows="4" cols="50" placeholder="Enter text to be read out loud"></textarea>
+    <button onclick="readText()">Read Text</button>
